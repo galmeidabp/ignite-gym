@@ -1,10 +1,12 @@
-import { View } from 'react-native';
 import { useFonts, Roboto_400Regular, Roboto_700Bold } from '@expo-google-fonts/roboto';
-import { StatusBar } from 'expo-status-bar';
-import { Center, GluestackUIProvider, Text } from '@gluestack-ui/themed';
-import { config } from './config/gluestack-ui.config';
-import { Loading } from '@components/Loading';
 import { Routes } from '@routes/index';
+import { StatusBar } from 'expo-status-bar';
+
+import { GluestackUIProvider } from '@gluestack-ui/themed';
+import { config } from './config/gluestack-ui.config';
+
+import { Loading } from '@components/Loading';
+
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
