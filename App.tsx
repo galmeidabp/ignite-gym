@@ -6,6 +6,7 @@ import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { config } from './config/gluestack-ui.config';
 
 import { Loading } from '@components/Loading';
+import { AuthContextProvider } from '@contexts/AuthContext';
 
 
 export default function App() {
@@ -14,10 +15,9 @@ export default function App() {
   return (
     <GluestackUIProvider config={config}>
       <StatusBar style='light' backgroundColor='transparent' translucent />
-
-      {fontsLoaded ? (
-        <Routes />
-        ) : <Loading />}
+      <AuthContextProvider>
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </AuthContextProvider>
         
       </GluestackUIProvider>
   );

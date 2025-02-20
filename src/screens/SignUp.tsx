@@ -3,13 +3,17 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 
-import { Center, Heading, Image, ScrollView, VStack, Text } from '@gluestack-ui/themed';
+import { Center, Heading, Image, ScrollView, VStack, Text, useToast, Toast, ToastTitle } from '@gluestack-ui/themed';
 
 import BackgroundImg from '@assets/background.png';
 import Logo from '@assets/logo.svg';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
+import { api } from '@services/api';
+import { AppError } from '@utils/AppError';
+import { useAuth } from '@hooks/useAuth';
+import { useState } from 'react';
 
 
 type FormDataProps = {
@@ -26,7 +30,12 @@ const signUpSchema = yup.object({
   password_confirm: yup.string().required('Confirme a senha').oneOf([yup.ref('password'), ''], 'A confirmação da senha não confere')
 })
 
-export function SignUp({name, email, password, password_confirm}: FormDataProps) {
+export function SignUp() {
+  const [ isLoading, setIsLoading ] = useState(false)
+
+  const toast = useToast()
+  const {signIn} = useAuth()
+
   const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
     resolver: yupResolver(signUpSchema)
   })
@@ -37,8 +46,40 @@ export function SignUp({name, email, password, password_confirm}: FormDataProps)
     navigation.goBack()
   }
 
-  function handleSignUp({name, email, password, password_confirm}: FormDataProps) {
-    console.log({name, email, password, password_confirm})
+  async function handleSignUp({name, email, password}: FormDataProps) {
+    try {
+      setIsLoading(true)
+
+      await api.post('/users', { name, email, password})
+      await signIn(email, password)
+
+    } catch (error) {
+      setIsLoading(false)
+
+      const isAppError = error instanceof AppError
+      const title = isAppError ? error.message : 'Não foi possível criar a conta. Tente novamente mais tarde.'
+
+      toast.show({
+       placement: "top",
+       render: () => (
+         <Toast action="error" variant="outline">
+           <ToastTitle style={{marginTop: 10, backgroundColor: 'red'}}>{title}</ToastTitle>
+         </Toast>
+       ),
+     });
+    }
+
+    /*
+    fetch('http://192.168.1.207:3333/users', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password})
+    }).then(response => response.json())
+    .then(data => console.log(data))
+    */
   }
 
   return (
@@ -83,7 +124,7 @@ export function SignUp({name, email, password, password_confirm}: FormDataProps)
                 returnKeyType='send' />
               )} />
 
-              <Button title='Criar e acessar' onPress={handleSubmit(handleSignUp)} />
+              <Button title='Criar e acessar' onPress={handleSubmit(handleSignUp)} isLoading={isLoading} />
             </Center>
 
               <Button title='Voltar para o login' variant='outline' mt='$12' onPress={handleGoBack} />

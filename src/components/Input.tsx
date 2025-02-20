@@ -14,7 +14,7 @@ type Props = ComponentProps<typeof InputField> & {
     <FormControl isInvalid={invalid} w='$full' mb='$4'>
       <GluestackInput 
         isInvalid={isInvalid}
-        h='$14'  
+        h='$12'  
         borderWidth='$0' 
         borderRadius='$md' 
         $invalid={{ borderWidth: 1, borderColor: '$red500'  }}
