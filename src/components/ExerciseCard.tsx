@@ -1,8 +1,13 @@
-import { TouchableOpacity, TouchableOpacityProps } from "react-native";
-import { Heading, HStack, Image, VStack, Icon, Text } from "@gluestack-ui/themed";
-import { ChevronRight } from "lucide-react-native";
-import { ExerciseDTO } from "@dtos/ExerciseDTO";
-import { api } from "@services/api";
+import { TouchableOpacity, TouchableOpacityProps } from "react-native"
+import { ChevronRight } from "lucide-react-native"
+
+import { ExerciseDTO } from "@dtos/ExerciseDTO"
+
+import { api } from "@services/api"
+
+import { Heading, HStack, Image, VStack, Icon, Text } from "@gluestack-ui/themed"
+
+
 
 
 type Props = TouchableOpacityProps & {

@@ -1,20 +1,22 @@
-import { useNavigation } from '@react-navigation/native';
-import { Controller, useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import {yupResolver} from '@hookform/resolvers/yup';
+import { useNavigation } from '@react-navigation/native'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
-import { Center, Heading, Image, ScrollView, VStack, Text, useToast, Toast, ToastTitle } from '@gluestack-ui/themed';
+import { api } from '@services/api'
 
-import BackgroundImg from '@assets/background.png';
-import Logo from '@assets/logo.svg';
+import * as yup from 'yup'
+import {yupResolver} from '@hookform/resolvers/yup'
 
-import { Input } from '@components/Input';
-import { Button } from '@components/Button';
-import { api } from '@services/api';
-import { AppError } from '@utils/AppError';
-import { useAuth } from '@hooks/useAuth';
-import { useState } from 'react';
+import { Center, Heading, Image, ScrollView, VStack, Text, useToast, Toast, ToastTitle } from '@gluestack-ui/themed'
 
+import BackgroundImg from '@assets/background.png'
+import Logo from '@assets/logo.svg'
+
+import { Input } from '@components/Input'
+import { Button } from '@components/Button'
+
+import { AppError } from '@utils/AppError'
+import { useAuth } from '@hooks/useAuth'
 
 type FormDataProps = {
   name: string
@@ -24,10 +26,21 @@ type FormDataProps = {
 }
 
 const signUpSchema = yup.object({
-  name: yup.string().required('Informe o nome'),
-  email: yup.string().required('Informe o e-mail').email('E-mail inválido'),
-  password: yup.string().required('Informe a senha').min(6, 'A senha deve ter pelo menos 6 dígitos'),
-  password_confirm: yup.string().required('Confirme a senha').oneOf([yup.ref('password'), ''], 'A confirmação da senha não confere')
+  name: yup
+    .string()
+    .required('Informe o nome'),
+  email: yup
+    .string()
+    .required('Informe o e-mail')
+    .email('E-mail inválido'),
+  password: yup
+    .string()
+    .required('Informe a senha')
+    .min(6, 'A senha deve ter pelo menos 6 dígitos'),
+  password_confirm: yup
+    .string()
+    .required('Confirme a senha')
+    .oneOf([yup.ref('password'), ''], 'A confirmação da senha não confere')
 })
 
 export function SignUp() {
@@ -102,26 +115,54 @@ export function SignUp() {
             <Center gap='$2' flex={1}>
               <Heading color='$gray100'>Crie sua conta</Heading>
 
-              <Controller control={control} name='name' render={({field: {onChange, value}}) => (
-                <Input placeholder='Nome' errorMessage={errors.name?.message}
-                onChangeText={onChange} value={value} />
+              <Controller 
+                control={control} 
+                name='name' 
+                render={({field: {onChange, value}}) => (
+                <Input 
+                  placeholder='Nome' 
+                  errorMessage={errors.name?.message}
+                  onChangeText={onChange} 
+                  value={value} />
               )} />
 
-              <Controller control={control} name='email' render={({field: {onChange, value}}) => (
-                <Input placeholder='E-mail' errorMessage={errors.email?.message}
-                keyboardType='email-address' autoCapitalize='none' onChangeText={onChange} value={value} />
+              <Controller 
+                control={control} 
+                name='email' 
+                render={({field: {onChange, value}}) => (
+                <Input 
+                  placeholder='E-mail' 
+                  errorMessage={errors.email?.message}
+                  keyboardType='email-address' 
+                  autoCapitalize='none' 
+                  onChangeText={onChange} 
+                  value={value} />
               )} />
 
-              <Controller control={control} name='password' render={({field: {onChange, value}}) => (
-                <Input placeholder='Senha' errorMessage={errors.password?.message}
-                secureTextEntry onChangeText={onChange} value={value} />
+              <Controller 
+                control={control} 
+                name='password' 
+                render={({field: {onChange, value}}) => (
+                <Input 
+                  placeholder='Senha' 
+                  errorMessage={errors.password?.message}
+                  secureTextEntry 
+                  onChangeText={onChange}
+                  value={value} />
               )} />
 
-              <Controller control={control} name='password_confirm' render={({field: {onChange, value}}) => (
-                <Input placeholder='Confirme a senha' errorMessage={errors.password_confirm?.message} 
-                secureTextEntry onChangeText={onChange} 
-                value={value} onSubmitEditing={handleSubmit(handleSignUp)} 
-                returnKeyType='send' />
+              <Controller 
+                control={control} 
+                name='password_confirm' 
+                render={({field: {onChange, value}}) => (
+                <Input 
+                  placeholder='Confirme a senha' 
+                  errorMessage={errors.password_confirm?.message} 
+                  secureTextEntry 
+                  onChangeText={onChange} 
+                  value={value} 
+                  onSubmitEditing={handleSubmit(handleSignUp)} 
+                  returnKeyType='send' />
               )} />
 
               <Button title='Criar e acessar' onPress={handleSubmit(handleSignUp)} isLoading={isLoading} />

@@ -1,32 +1,46 @@
-import { ScrollView, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { ScrollView, TouchableOpacity } from 'react-native'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
-import { Center, Heading, Text, ToastTitle, useToast, VStack } from '@gluestack-ui/themed';
+import { api } from '@services/api'
 
-import * as ImagePicker from 'expo-image-picker';
-import * as FileSystem from 'expo-file-system'; 
+import { Center, Heading, Text, ToastTitle, useToast, VStack, Toast } from '@gluestack-ui/themed'
+
+import * as ImagePicker from 'expo-image-picker'
+import * as FileSystem from 'expo-file-system' 
 import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 import defaultUserPhotoImg from '@assets/userPhotoDefault.png'
 
-import { Button } from '@components/Button';
-import { Input } from '@components/Input';
-import { ScreenHeader } from '@components/ScreenHeader';
-import { UserPhoto } from '@components/UserPhoto';
-import { ToastMessage } from '@components/ToastMessage';
-import { Controller, useForm } from 'react-hook-form';
-import { useAuth } from '@hooks/useAuth';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { api } from '@services/api';
-import { Toast } from '@gluestack-ui/themed';
-import { AppError } from '@utils/AppError';
+import { Button } from '@components/Button'
+import { Input } from '@components/Input'
+import { ScreenHeader } from '@components/ScreenHeader'
+import { UserPhoto } from '@components/UserPhoto'
+import { ToastMessage } from '@components/ToastMessage'
+
+import { AppError } from '@utils/AppError'
+
+import { useAuth } from '@hooks/useAuth'
 
 const profileSchema = yup.object({
   name: yup.string().required('Informe o nome.'),
   email: yup.string().optional(),
-  password: yup.string().min(6, 'A senha deve ter pelo menos 6 dígitos.').nullable().transform((value) => !!value ? value : null),
-  old_password: yup.string().min(6, 'A senha deve ter pelo menos 6 dígitos.').nullable().transform((value) => !!value ? value : null),
-  confirm_password: yup.string().nullable().transform((value) => !!value ? value : null).oneOf([yup.ref('password'), null], 'As senhas devem ser iguais.'),
+  password: yup
+    .string()
+    .min(6, 'A senha deve ter pelo menos 6 dígitos.')
+    .nullable()
+    .transform((value) => !!value ? value : null),
+  old_password: yup
+    .string()
+    .min(6, 'A senha deve ter pelo menos 6 dígitos.')
+    .nullable()
+    .transform((value) => !!value ? value : null),
+  confirm_password: yup
+    .string()
+    .nullable()
+    .transform((value) => !!value ? value : null)
+    .oneOf([yup.ref('password'), null], 'As senhas devem ser iguais.'),
 });
 
 // Em vez de forçar a tipagem, deixa que.o próprio yup crie a tipagem
@@ -157,7 +171,8 @@ export function Profile() {
           <UserPhoto size='xl' 
             source={user.avatar ? 
             {uri: `${api.defaults.baseURL}/avatar/${user.avatar}`} 
-            : defaultUserPhotoImg}  alt='Foto do usuário' />
+            : defaultUserPhotoImg}  alt='Foto do usuário' 
+          />
 
           <TouchableOpacity onPress={handleUserPhotoSelect} >
             <Text color='$green500' fontFamily='$heading' fontSize='$md' mt='$2' mb='$8'>
@@ -171,7 +186,13 @@ export function Profile() {
               control={control}
               name='name'
               render={({ field: { value, onChange } }) => (
-              <Input placeholder='Nome' bg='$gray600' onChangeText={onChange} value={value} errorMessage={errors.name?.message} /> 
+              <Input 
+                placeholder='Nome' 
+                bg='$gray600' 
+                onChangeText={onChange} 
+                value={value} 
+                errorMessage={errors.name?.message} 
+              /> 
             )}
             />
 
@@ -179,11 +200,15 @@ export function Profile() {
               control={control}
               name='email'
               render={({ field: { value, onChange } }) => (
-              <Input placeholder='Email' bg='$gray600' isReadOnly onChangeText={onChange} value={value}  />
+              <Input 
+                placeholder='Email' 
+                bg='$gray600' 
+                isReadOnly 
+                onChangeText={onChange} 
+                value={value}  
+              />
             )}
             />
-
-            
 
           </Center>
 
@@ -197,7 +222,12 @@ export function Profile() {
               control={control}
               name='old_password'
               render={({ field: { onChange } }) => (
-              <Input  placeholder='Senha antiga' bg='$gray600' secureTextEntry onChangeText={onChange} />
+              <Input  
+                placeholder='Senha antiga' 
+                bg='$gray600' 
+                secureTextEntry 
+                onChangeText={onChange} 
+              />
             )}
             />
 
@@ -205,7 +235,13 @@ export function Profile() {
               control={control}
               name='password'
               render={({ field: { onChange } }) => (
-              <Input  placeholder='Nova senha' bg='$gray600' secureTextEntry onChangeText={onChange} errorMessage={errors.password?.message} />
+              <Input  
+                placeholder='Nova senha' 
+                bg='$gray600' 
+                secureTextEntry 
+                onChangeText={onChange} 
+                errorMessage={errors.password?.message} 
+              />
             )}
             />
 
@@ -213,16 +249,24 @@ export function Profile() {
               control={control}
               name='confirm_password'
               render={({ field: { onChange } }) => (
-              <Input  placeholder='Confirme a nova senha' bg='$gray600' secureTextEntry onChangeText={onChange} errorMessage={errors.confirm_password?.message} />
+              <Input  
+                placeholder='Confirme a nova senha' 
+                bg='$gray600' 
+                secureTextEntry 
+                onChangeText={onChange} 
+                errorMessage={errors.confirm_password?.message} 
+              />
             )}
             />
           
-            <Button title='Atualizar' onPress={handleSubmit(handleProfileUpdate)} isLoading={isUpdating} />
+            <Button 
+              title='Atualizar' 
+              onPress={handleSubmit(handleProfileUpdate)} 
+              isLoading={isUpdating} 
+            />
           </Center>
         </Center>
-
-        
-        
+    
       </ScrollView>
     </VStack>
   )

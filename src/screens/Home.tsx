@@ -1,16 +1,21 @@
-import { Heading, HStack, Text, Toast, ToastTitle, useToast, VStack } from '@gluestack-ui/themed';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useCallback, useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { useCallback, useEffect, useState } from 'react'
+import { FlatList } from 'react-native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 
-import { ExerciseCard } from '@components/ExerciseCard';
-import { Group } from '@components/Group';
-import { HomeHeader } from '@components/HomeHeader';
-import { AppNavigatorRoutesProps } from '@routes/app.routes';
-import { AppError } from '@utils/AppError';
-import { api } from '@services/api';
-import { ExerciseDTO } from '@dtos/ExerciseDTO';
-import { Loading } from '@components/Loading';
+import { api } from '@services/api'
+
+import { ExerciseDTO } from '@dtos/ExerciseDTO'
+
+import { AppNavigatorRoutesProps } from '@routes/app.routes'
+
+import { Heading, HStack, Text, Toast, ToastTitle, useToast, VStack } from '@gluestack-ui/themed'
+
+import { ExerciseCard } from '@components/ExerciseCard'
+import { Group } from '@components/Group'
+import { HomeHeader } from '@components/HomeHeader'
+import { Loading } from '@components/Loading'
+
+import { AppError } from '@utils/AppError'
 
 export function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -96,7 +101,11 @@ export function Home() {
       {
         isLoading ? <Loading /> : 
         <VStack px='$8' flex={1} >
-          <HStack justifyContent='space-between' mb='$5' alignItems='center' >
+          <HStack 
+            justifyContent='space-between' 
+            mb='$5' 
+            alignItems='center' 
+          >
             <Heading color='$gray200' fontSize='$md' fontFamily='#heading'>
               Exercícios
             </Heading>
@@ -104,8 +113,15 @@ export function Home() {
             <Text color='$gray200' fontSize='$sm'>{exercise.length}</Text>
           </HStack>
 
-          <FlatList data={exercise} keyExtractor={item => item.id} renderItem={(({item}) => <ExerciseCard data={item} onPress={() => handleOpenExerciseDetails(item.id)} />)} 
-          showsVerticalScrollIndicator={false} contentContainerStyle={{paddingBottom: 20}} />
+          <FlatList 
+            data={exercise} 
+            keyExtractor={item => item.id} 
+            renderItem={(({item}) => <ExerciseCard 
+            data={item} 
+            onPress={() => handleOpenExerciseDetails(item.id)} />)} 
+            showsVerticalScrollIndicator={false} 
+            contentContainerStyle={{paddingBottom: 20}} 
+          />
         </VStack>
       }
     </VStack>

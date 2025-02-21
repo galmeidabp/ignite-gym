@@ -1,5 +1,7 @@
-import { Button, Text } from "@gluestack-ui/themed";
-import { ComponentProps } from "react";
+import { ComponentProps } from 'react'
+
+import { Button, Text } from '@gluestack-ui/themed'
+
 
 type Props = ComponentProps<typeof Button> & {
   name: string
@@ -23,7 +25,11 @@ export function Group({name, isActive, ...rest}: Props) {
           borderWidth: 1,
       }}}
     >
-      <Text color={isActive ? '$green500' : '$gray200'} textTransform="uppercase" fontSize='$xs' fontFamily='$heading'>
+      <Text 
+        color={isActive ? '$green500' : '$gray200'} 
+        textTransform='uppercase' 
+        fontSize='$xs' 
+        fontFamily='$heading'>
         {name}
       </Text>
     </Button>

@@ -1,17 +1,17 @@
-import { useNavigation } from '@react-navigation/native';
-import { AuthNavigatorRoutesProps } from '@routes/auth.routes';
-import { Controller, useForm } from 'react-hook-form';
+import { useNavigation } from '@react-navigation/native'
+import { AuthNavigatorRoutesProps } from '@routes/auth.routes'
+import { Controller, useForm } from 'react-hook-form'
 
-import { Center, Heading, Image, ScrollView, VStack, Text, useToast, Toast, ToastTitle } from '@gluestack-ui/themed';
+import { Center, Heading, Image, ScrollView, VStack, Text, useToast, Toast, ToastTitle } from '@gluestack-ui/themed'
 
-import { Input } from '@components/Input';
-import { Button } from '@components/Button';
+import { Input } from '@components/Input'
+import { Button } from '@components/Button'
 
-import BackgroundImg from '@assets/background.png';
-import Logo from '@assets/logo.svg';
-import { useAuth } from '@hooks/useAuth';
-import { AppError } from '@utils/AppError';
-import { useState } from 'react';
+import BackgroundImg from '@assets/background.png'
+import Logo from '@assets/logo.svg'
+import { useAuth } from '@hooks/useAuth'
+import { AppError } from '@utils/AppError'
+import { useState } from 'react'
 
 type FormDataProps = {
   email: string
